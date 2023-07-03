@@ -1,13 +1,13 @@
 pipeline{
     agent any
-    tools {
+  /*  tools {
         maven "MAVEN3"
         jdk "OracleJDK8"
     }
+  */
     environment{
         registry = 'thundereagle36/vprofileapp'
         registryCredentials = 'dockerhub'
-        ARTVERSION = '${env.Build_ID}'
     }
     stages{
 
@@ -28,12 +28,22 @@ pipeline{
                 sh 'mvn test'
             }
         }
+        stage("Integration Test"){
+            steps{
+                sh 'mvn verify -DskipUnitTests'
+            }
+        }
         stage('checkstyle Analysis'){
             steps{
                 sh 'mvn checkstyle:checkstyle'
             }
+            post{
+                success{
+                    echo 'Generated Analysis Result'
+                }
+            }
         }
-        stage('sonar Analysis'){
+        stage('Sonar Analysis'){
             environment{
                 scannerHome = tool 'sonar4.7'
             }
