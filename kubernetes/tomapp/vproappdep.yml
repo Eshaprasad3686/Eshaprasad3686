@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: vproapp
-        image: imranvisualpath/8amtomapp_1
+        image: thundereagle36/vprofileweb
         ports:
         - name: vproapp-port
           containerPort: 8080
